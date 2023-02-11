@@ -27,14 +27,20 @@
         $options = get_option('mh_admin_tax') ?: array();
 
         // Table start
-        echo '<table class="cpt-table"><tr><th>ID</th><th>Singular Name</th><th class="text-center">Hierarchical</th><th class="text-center">Actions</th></tr>';
+        echo '<table class="cpt-table"><tr><th>ID</th><th>Singular Name</th><th class="text-center">Post Type</th><th class="text-center">Hierarchical</th><th class="text-center">Actions</th></tr>';
 
         foreach($options as $option){
+
+          $objects = isset($option['objects']) ? array_keys($option['objects']) : null;
+          $post_type = '';
+          foreach($objects as $object){
+            $post_type .= $object.', ';
+          }
 
           $hierarchical = isset($option['hierarchical']) ? "Yes" : 'No';
 
           // Asign table value
-          echo "<tr><td>{$option['taxonomy']}</td><td>{$option['singular_name']}</td><td class=\"text-center\">{$hierarchical}</td><td class=\"text-center\">";
+          echo "<tr><td>{$option['taxonomy']}</td><td>{$option['singular_name']}</td><td class=\"text-center\">$post_type</td><td class=\"text-center\">{$hierarchical}</td><td class=\"text-center\">";
 
           // Edit Button Start
           echo '<form method="post" action="" class="inline-block">';

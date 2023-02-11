@@ -145,6 +145,21 @@ class TaxonomyController extends BaseController
             'array' => 'taxonomy',
           )
         ),
+
+         // Hierarchical
+         array(
+          'id' => 'objects',
+          'title' => 'Post Types',
+          'callback' => array($this->tax_callbacks, 'checkboxPostTypesField'),
+          'page' => 'mh_taxonomy',
+          'section' => 'mh_tax_index',
+          'args' => array(
+            'option_name' => 'mh_admin_tax',
+            'label_for' => 'objects',
+            'class' => 'ui-toggle',
+            'array' => 'taxonomy',
+          )
+        ),
     );
     
 
@@ -178,6 +193,7 @@ class TaxonomyController extends BaseController
 				'show_admin_column' => true,
 				'query_var'         => true,
 				'rewrite'           => array( 'slug' => $option['taxonomy'] ),
+        'objects'           => isset($option['objects']) ? $option['objects'] : null,
 			);
 
     }
@@ -187,7 +203,8 @@ class TaxonomyController extends BaseController
   //register the taxonomy
   public function registerCustomTaxonomy(){
     foreach($this->taxonomies as $taxonomy){
-      register_taxonomy( $taxonomy['rewrite']['slug'], array('post'), $taxonomy );
+      $objects = isset($taxonomy['objects']) ? array_keys($taxonomy['objects']) : null;
+      register_taxonomy( $taxonomy['rewrite']['slug'], $objects , $taxonomy );
     }
   }
 }
