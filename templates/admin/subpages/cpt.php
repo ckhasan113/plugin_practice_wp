@@ -39,7 +39,7 @@
           echo "<tr><td>{$option['post_type']}</td><td>{$option['singular_name']}</td><td>{$option['plural_name']}</td><td class=\"text-center\">{$public}</td><td class=\"text-center\">{$archive}</td><td class=\"text-center\">";
 
           // Edit Button Start
-          echo '<form method="post" action="" class="inline-block">';
+          echo '<form method="post" action="" class="inline-block p-5">';
 
           echo '<input type="hidden" name="edit_post" value="'.$option['post_type'].'"/>';
           submit_button('Edit', 'primary small', 'submit', false); 
@@ -49,7 +49,7 @@
 
 
           // Delete Button Start
-          echo '<form method="post" action="options.php" class="inline-block">';
+          echo '<form method="post" action="options.php" class="inline-block p-5">';
 
           settings_fields('mh_admin_cpt_settings');
 

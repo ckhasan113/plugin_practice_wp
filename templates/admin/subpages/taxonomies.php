@@ -43,7 +43,7 @@
           echo "<tr><td>{$option['taxonomy']}</td><td>{$option['singular_name']}</td><td class=\"text-center\">$post_type</td><td class=\"text-center\">{$hierarchical}</td><td class=\"text-center\">";
 
           // Edit Button Start
-          echo '<form method="post" action="" class="inline-block">';
+          echo '<form method="post" action="" class="inline-block p-5">';
 
           echo '<input type="hidden" name="edit_taxonomy" value="'.$option['taxonomy'].'"/>';
           submit_button('Edit', 'primary small', 'submit', false); 
@@ -53,7 +53,7 @@
 
 
           // Delete Button Start
-          echo '<form method="post" action="options.php" class="inline-block">';
+          echo '<form method="post" action="options.php" class="inline-block p-5">';
 
           settings_fields('mh_admin_tax_settings');
 
