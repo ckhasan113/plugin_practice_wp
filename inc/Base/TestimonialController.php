@@ -33,6 +33,8 @@ class TestimonialController extends BaseController
      * 10 - is the ordering number for this custom method. 10 is default value
      * 2 - means this method have 2 arguments
      */
+
+     add_filter( 'manage_edit-testimonial_sortable_columns', array($this, 'setCustomColumnsSortable'));
     
   }
 
@@ -56,6 +58,11 @@ class TestimonialController extends BaseController
     register_post_type( 'testimonial', $args );
   }
 
+  /**
+   * this function add meta box in the admin page
+   *
+   * @return void
+   */
   public function addMetaBoxes(){
     add_meta_box(
       'testimonial_author',
@@ -67,7 +74,14 @@ class TestimonialController extends BaseController
     );
   }
 
+  /**
+   * This method is to design the meta box and show the value
+   *
+   * @param [WP_Post object] $post
+   * @return void
+   */
   public function renderAuthorBox($post){
+
     wp_nonce_field('mh_testimonial', 'mh_testimonial_nonce');
 
     $data = get_post_meta($post->ID, '_mh_testimonial_author_key', true);
@@ -76,7 +90,6 @@ class TestimonialController extends BaseController
 		$email = isset($data['email']) ? $data['email'] : '';
 		$approved = isset($data['approved']) ? $data['approved'] : false;
 		$featured = isset($data['featured']) ? $data['featured'] : false;
-
 
     ?> 
     
@@ -108,8 +121,14 @@ class TestimonialController extends BaseController
   }
 
 
-  public function saveMetaBox($post_id)
-  {
+  /**
+   * This function store the meta box data
+   *
+   * @param [int] $post_id
+   * @return void
+   */
+  public function saveMetaBox($post_id){
+
     if(!isset($_POST['mh_testimonial_nonce'])){
       return $post_id;
     }
@@ -140,13 +159,23 @@ class TestimonialController extends BaseController
 
   }
 
+
+  /**
+   * this method use for creating custom columns
+   *
+   * @param [array] $columns
+   * @return $columns
+   */
   public function setCustomColumns($columns){
 
+    // store the default filed value
     $title = $columns['title'];
     $date = $columns['date'];
 
+    // remove the default columns
     unset($columns['title'], $columns['date']);
 
+    // create the custom columns one after another in which oder we want to see
     $columns['name'] = 'Author Name';
     $columns['title'] = $title;
     $columns['approved'] = 'Approved';
@@ -157,6 +186,13 @@ class TestimonialController extends BaseController
 
   }
 
+  /**
+   * this method set the value of the custom columns
+   *
+   * @param [array] $column
+   * @param [int] $post_id
+   * @return void
+   */
   public function setCustomColumnsData($column, $post_id)
   {
     $data = get_post_meta($post_id, '_mh_testimonial_author_key', true);
@@ -180,6 +216,21 @@ class TestimonialController extends BaseController
         break;
     }
 
+  }
+
+  /**
+   * this function set the columns in testimonial list sortable
+   *
+   * @param [array] $columns
+   * @return $columns
+   */
+  public function setCustomColumnsSortable($columns){
+    
+    $columns['name'] = 'name';
+    $columns['approved'] ='approved';
+    $columns['featured'] ='featured';
+
+    return $columns;
   }
   
 }
