@@ -77,10 +77,10 @@ class TestimonialController extends BaseController
       <label class="meta-label" for="mh_testimonial_author">Testimonial Author</label>
       <input type="text" id="mh_testimonial_author", name="mh_testimonial_author" calass="widefat" value="<?php echo $name ?>"/>
 
-      <label class="meta-label" for="mh_testimonial_email">Author Email</label>
+      <label class="meta-label mt-10" for="mh_testimonial_email">Author Email</label>
       <input type="text" id="mh_testimonial_email", name="mh_testimonial_email" calass="widefat" value="<?php echo esc_attr( $email ) ?>"/>
 
-      <div class="meta-container">
+      <div class="meta-container mt-10">
           <label class="meta-label w-50 text-left" for="mh_testimonial_approved">Approved</label>
           <div class="text-right w-50 inline">
             <div class="ui-toggle inline"><input type="checkbox" id="mh_testimonial_approved" name="mh_testimonial_approved" value="1" <?php echo $approved ? 'checked' : ''; ?>>
