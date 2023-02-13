@@ -68,7 +68,7 @@ class MediaWidget extends WP_Widget{
    */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Custom Text', 'awps' );
-		$image = ! empty( $instance['image'] ) ? $instance['image'] : '';
+		$image= ! empty( $instance['image'] ) ? $instance['image'] : '';
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'awps' ); ?></label> 
@@ -77,7 +77,7 @@ class MediaWidget extends WP_Widget{
 
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'image' ) ); ?>"><?php esc_attr_e( 'Image:', 'awps' ); ?></label> 
-			<input class="widefat image-upload" id="<?php echo esc_attr( $this->get_field_id( 'image' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'image' ) ); ?>" type="text" value="<?php echo $image; ?>">
+			<input class="widefat image-upload" id="<?php echo esc_attr( $this->get_field_id( 'image' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'image' ) ); ?>" type="text" value="<?php echo esc_url($image); ?>">
 			<button type="button" class="button button-primary js-image-upload">Select Image</button>
 		</p>
 		<?php 

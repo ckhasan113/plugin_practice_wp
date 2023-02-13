@@ -62,28 +62,55 @@ class TestimonialController extends BaseController
   }
 
   public function renderAuthorBox($post){
-    wp_nonce_field('mh_testimonial_author', 'mh_testimonial_author_nonce');
+    wp_nonce_field('mh_testimonial', 'mh_testimonial_nonce');
 
-    $value = get_post_meta($post->ID, '_mh_testimonial_author_key', true);
+    $data = get_post_meta($post->ID, '_mh_testimonial_author_key', true);
+
+    $name = isset($data['name']) ? $data['name'] : '';
+		$email = isset($data['email']) ? $data['email'] : '';
+		$approved = isset($data['approved']) ? $data['approved'] : false;
+		$featured = isset($data['featured']) ? $data['featured'] : false;
 
 
     ?> 
     
-<label for="mh_testimonial_author">Testimonial Author</label>
-<input type="text" id="mh_testimonial_author", name="mh_testimonial_author" calass="widefat" value="<?php echo $value ?>">
+      <label class="meta-label" for="mh_testimonial_author">Testimonial Author</label>
+      <input type="text" id="mh_testimonial_author", name="mh_testimonial_author" calass="widefat" value="<?php echo $name ?>"/>
 
-<?php
+      <label class="meta-label" for="mh_testimonial_email">Author Email</label>
+      <input type="text" id="mh_testimonial_email", name="mh_testimonial_email" calass="widefat" value="<?php echo esc_attr( $email ) ?>"/>
+
+      <div class="meta-container">
+          <label class="meta-label w-50 text-left" for="mh_testimonial_approved">Approved</label>
+          <div class="text-right w-50 inline">
+            <div class="ui-toggle inline"><input type="checkbox" id="mh_testimonial_approved" name="mh_testimonial_approved" value="1" <?php echo $approved ? 'checked' : ''; ?>>
+              <label for="mh_testimonial_approved"><div></div></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="meta-container">
+          <label class="meta-label w-50 text-left" for="mh_testimonial_featured">Featured</label>
+          <div class="text-right w-50 inline">
+            <div class="ui-toggle inline"><input type="checkbox" id="mh_testimonial_featured" name="mh_testimonial_featured" value="1" <?php echo $featured ? 'checked' : ''; ?>>
+              <label for="mh_testimonial_featured"><div></div></label>
+            </div>
+          </div>
+        </div>
+
+    <?php
   }
+
 
   public function saveMetaBox($post_id)
   {
-    if(!isset($_POST['mh_testimonial_author_nonce'])){
+    if(!isset($_POST['mh_testimonial_nonce'])){
       return $post_id;
     }
 
-    $nonce = $_POST['mh_testimonial_author_nonce'];
+    $nonce = $_POST['mh_testimonial_nonce'];
 
-    if(!wp_verify_nonce( $nonce, 'mh_testimonial_author' )){
+    if(!wp_verify_nonce( $nonce, 'mh_testimonial' )){
       return $post_id;
     }
 
@@ -95,7 +122,13 @@ class TestimonialController extends BaseController
       return $post_id;
     }
 
-    $data = sanitize_text_field( $_POST['mh_testimonial_author'] );
+    // $data = sanitize_text_field( $_POST['mh_testimonial_author'] );
+    $data = array(
+			'name' => sanitize_text_field( $_POST['mh_testimonial_author'] ),
+			'email' => sanitize_text_field( $_POST['mh_testimonial_email'] ),
+			'approved' => isset($_POST['mh_testimonial_approved']) ? 1 : 0,
+			'featured' => isset($_POST['mh_testimonial_featured']) ? 1 : 0,
+		);
     
     update_post_meta( $post_id, '_mh_testimonial_author_key', $data );
 
