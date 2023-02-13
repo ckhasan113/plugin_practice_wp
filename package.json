@@ -43,11 +43,11 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifycss": "^1.0.9",
-    "sass": "^1.58.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^2.0.0",
     "node-sass": "^8.0.0",
-    "source-map-resolve": "^0.6.0"
+    "sass": "^1.58.0",
+    "source-map-resolve": "^0.6.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^2.0.0"
   },
   "babel": {
     "presets": [

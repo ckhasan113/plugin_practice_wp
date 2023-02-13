@@ -37,11 +37,33 @@ class TestimonialController extends BaseController
 
      add_filter( 'manage_edit-testimonial_sortable_columns', array($this, 'setCustomColumnsSortable'));
 
-
      $this->setShortcodePage();
+     add_shortcode( 'testimonial-form', array($this, 'testimonialForm'));
     
   }
 
+  /**
+   * Shortcode template
+   *
+   * @return ob
+   */
+  public function testimonialForm(){
+    
+    // ob_start() - wait for the actual calling otherwise require_once() will be call before.
+    ob_start();
+
+    require_once("$this->plugin_path/templates/admin/subpages/sub_subpages/contact_form.php");
+    echo "<script src=\"$this->plugin_url/src/js/form.js\"></script>";
+
+    return ob_get_clean();
+
+  }
+
+  /**
+   * This function create subpage in testimonial section
+   *
+   * @return void
+   */
   public function setShortcodePage(){
     $subpage = array(
       array(
