@@ -23,10 +23,16 @@ class TestimonialController extends BaseController
     if ( ! $this->activated( 'testimonial_manager' ) ) return;
 
     add_action( 'init', array($this, 'testimonial_cpt') );
-
     add_action('add_meta_boxes', array($this, 'addMetaBoxes'));
-
     add_action( 'save_post', array($this, 'saveMetaBox'));
+
+    // add_action( 'manage_{post_type}_posts_columns')
+    add_action( 'manage_testimonial_posts_columns', array($this, 'setCustomColumns'));
+    add_action( 'manage_testimonial_posts_custom_column', array($this, 'setCustomColumnsData'), 10, 2);
+    /**
+     * 10 - is the ordering number for this custom method. 10 is default value
+     * 2 - means this method have 2 arguments
+     */
     
   }
 
@@ -131,6 +137,48 @@ class TestimonialController extends BaseController
 		);
     
     update_post_meta( $post_id, '_mh_testimonial_author_key', $data );
+
+  }
+
+  public function setCustomColumns($columns){
+
+    $title = $columns['title'];
+    $date = $columns['date'];
+
+    unset($columns['title'], $columns['date']);
+
+    $columns['name'] = 'Author Name';
+    $columns['title'] = $title;
+    $columns['approved'] = 'Approved';
+    $columns['featured'] = 'Featured';
+    $columns['date'] = $date;
+
+    return $columns;
+
+  }
+
+  public function setCustomColumnsData($column, $post_id)
+  {
+    $data = get_post_meta($post_id, '_mh_testimonial_author_key', true);
+
+    $name = isset($data['name']) ? $data['name'] : '';
+		$email = isset($data['email']) ? $data['email'] : '';
+		$approved = isset($data['approved']) && $data['approved'] === 1 ? '<strong>YES</strong>' : '<strong>NO</strong>';
+		$featured = isset($data['featured']) && $data['featured'] === 1 ? '<strong>YES</strong>' : '<strong>NO</strong>';
+
+    switch($column){
+      case 'name' :
+        echo '<strong>'.$name.'</strong><br/><a href="mailto:"'.$email.'">'.$email.'</a>';
+        break;
+
+      case 'approved' :
+        echo $approved;
+        break;
+
+      case 'featured' :
+        echo $featured;
+        break;
+    }
 
   }
   
