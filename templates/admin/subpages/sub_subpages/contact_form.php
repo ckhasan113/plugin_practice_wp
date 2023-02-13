@@ -2,7 +2,7 @@
 
 	<div class="field-container">
 		<input type="text" class="field-input" placeholder="Your Name" id="name" name="name" required>
-		<small class="field-msg error">Your Name is Required</small>
+		<small class="field-msg error" data-error="invalidName">Your Name is Required</small>
 	</div>
 
 	<div class="field-container">
@@ -13,7 +13,7 @@
 
 	<div class="field-container">
 		<textarea name="message" id="message" class="field-input" placeholder="Your Message" required></textarea>
-		<small class="field-msg error">A Message is Required</small>
+		<small class="field-msg error" data-error="invalidMessage">A Message is Required</small>
 	</div>
 	
 	<div class="field-container">
