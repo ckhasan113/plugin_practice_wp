@@ -52,8 +52,9 @@ class TestimonialController extends BaseController
     // ob_start() - wait for the actual calling otherwise require_once() will be call before.
     ob_start();
 
+    echo "<link rel =\"stylesheet\" href=\"$this->plugin_url/assets/form.min.css\" type=\"text/css\" media=\"all\" />";
     require_once("$this->plugin_path/templates/admin/subpages/sub_subpages/contact_form.php");
-    echo "<script src=\"$this->plugin_url/src/js/form.js\"></script>";
+    echo "<script src=\"$this->plugin_url/assets/form.min.js\"></script>";
 
     return ob_get_clean();
 

@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(e) {
-  console.log('This is Ready!');
+  let testimonialForm = document.getElementById('mh-testimonial-form');
+
+  testimonialForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log('Prevent form to submit');
+  });
 });
 
