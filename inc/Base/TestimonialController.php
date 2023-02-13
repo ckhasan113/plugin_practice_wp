@@ -6,21 +6,22 @@
 
 namespace Inc\Base;
 
+use Inc\Api\SettingsApi; 
 use \Inc\Base\BaseController;
+use Inc\Api\Callbacks\TestimonialCallbacks;
 
 class TestimonialController extends BaseController
 {
 
   public $settings;
-
-  public $callbacks;
-
-  public $subpages = array();
+  public $test_callbacks;
 
   public function register(){
 
-    
     if ( ! $this->activated( 'testimonial_manager' ) ) return;
+
+    $this->settings = new SettingsApi();
+    $this->test_callbacks = new TestimonialCallbacks();
 
     add_action( 'init', array($this, 'testimonial_cpt') );
     add_action('add_meta_boxes', array($this, 'addMetaBoxes'));
@@ -35,9 +36,32 @@ class TestimonialController extends BaseController
      */
 
      add_filter( 'manage_edit-testimonial_sortable_columns', array($this, 'setCustomColumnsSortable'));
+
+
+     $this->setShortcodePage();
     
   }
 
+  public function setShortcodePage(){
+    $subpage = array(
+      array(
+        'parent_slug' => 'edit.php?post_type=testimonial',
+        'page_title' => 'Shortcodes',
+        'menu_title' => 'Shortcodes',
+        'capability' => 'manage_options',
+        'menu_slug' => 'mh_testimonial',
+        'callback' => array($this->test_callbacks, 'shortcodePage'),
+      ),
+    );
+
+    $this->settings->addSubPages($subpage)->register();
+  }
+
+  /**
+   * This function create "Testimonial" section in menu
+   *
+   * @return void
+   */
   public function testimonial_cpt(){
 
     $labels = array(
